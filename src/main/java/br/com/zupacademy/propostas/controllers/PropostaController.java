@@ -1,7 +1,7 @@
 package br.com.zupacademy.propostas.controllers;
 
-import br.com.zupacademy.propostas.apiclients.avaliacaofinanceira.AvaliacaoFinanceiraRequest;
-import br.com.zupacademy.propostas.apiclients.avaliacaofinanceira.AvaliacaoFinanceiraResponse;
+import br.com.zupacademy.propostas.apiclients.avaliacaofinanceira.AvaliacaoRequest;
+import br.com.zupacademy.propostas.apiclients.avaliacaofinanceira.AvaliacaoResponse;
 import br.com.zupacademy.propostas.apiclients.avaliacaofinanceira.AvaliacaoService;
 import br.com.zupacademy.propostas.controllers.dto.request.NovaPropostaRequest;
 import br.com.zupacademy.propostas.controllers.exception.ValidationErrorsOutputDto;
@@ -43,9 +43,9 @@ public class PropostaController {
 
         repository.save(proposta);
 
-        AvaliacaoFinanceiraRequest avaliacaoRequest = new AvaliacaoFinanceiraRequest(proposta.getDocumento(),
+        AvaliacaoRequest avaliacaoRequest = new AvaliacaoRequest(proposta.getDocumento(),
                 proposta.getNome(), proposta.getId().toString());
-        AvaliacaoFinanceiraResponse response = avaliacaoService.avalia(avaliacaoRequest);
+        AvaliacaoResponse response = avaliacaoService.avalia(avaliacaoRequest);
         proposta.atualizaEstado(response.getResultadoSolicitacao());
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(proposta.getId()).toUri();

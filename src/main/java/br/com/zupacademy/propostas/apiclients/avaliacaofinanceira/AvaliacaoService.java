@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class AvaliacaoService {
     @Autowired
-    private AvaliacaoFinanceiraClient client;
+    private AvaliacaoClient client;
 
     /**
      *
@@ -17,14 +17,14 @@ public class AvaliacaoService {
      * @return resultado da avaliação
      * @throws ResponseStatusException caso receba uma resposta inesperada do serviço terceiro
      */
-    public AvaliacaoFinanceiraResponse avalia(AvaliacaoFinanceiraRequest request) throws ResponseStatusException {
-        AvaliacaoFinanceiraResponse response;
+    public AvaliacaoResponse avalia(AvaliacaoRequest request) throws ResponseStatusException {
+        AvaliacaoResponse response;
 
         try {
             return client.avalia(request);
         } catch (FeignException ex) {
             if (ex.status() == HttpStatus.UNPROCESSABLE_ENTITY.value()) {
-                return new AvaliacaoFinanceiraResponse(request.getDocumento(),
+                return new AvaliacaoResponse(request.getDocumento(),
                         request.getNome(), request.getIdProposta(), ResultadoSolicitacao.COM_RESTRICAO);
             } else {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro durante a avaliação da proposta");

@@ -2,13 +2,13 @@ package br.com.zupacademy.propostas.apiclients.avaliacaofinanceira;
 
 import java.util.StringJoiner;
 
-public class AvaliacaoFinanceiraResponse {
+public class AvaliacaoResponse {
     private String documento;
     private String nome;
     private String idProposta;
     private ResultadoSolicitacao resultadoSolicitacao;
 
-    public AvaliacaoFinanceiraResponse(String documento, String nome, String idProposta, ResultadoSolicitacao resultadoSolicitacao) {
+    public AvaliacaoResponse(String documento, String nome, String idProposta, ResultadoSolicitacao resultadoSolicitacao) {
         this.documento = documento;
         this.nome = nome;
         this.idProposta = idProposta;
@@ -33,7 +33,7 @@ public class AvaliacaoFinanceiraResponse {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", AvaliacaoFinanceiraResponse.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", AvaliacaoResponse.class.getSimpleName() + "[", "]")
                 .add("documento='" + documento + "'")
                 .add("nome='" + nome + "'")
                 .add("idProposta='" + idProposta + "'")

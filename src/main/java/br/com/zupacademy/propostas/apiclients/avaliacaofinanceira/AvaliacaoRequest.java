@@ -2,7 +2,7 @@ package br.com.zupacademy.propostas.apiclients.avaliacaofinanceira;
 
 import javax.validation.constraints.NotBlank;
 
-public class AvaliacaoFinanceiraRequest {
+public class AvaliacaoRequest {
     @NotBlank
     private String documento;
     @NotBlank
@@ -10,7 +10,7 @@ public class AvaliacaoFinanceiraRequest {
     @NotBlank
     private String idProposta;
 
-    public AvaliacaoFinanceiraRequest(@NotBlank String documento, @NotBlank String nome, @NotBlank String idProposta) {
+    public AvaliacaoRequest(@NotBlank String documento, @NotBlank String nome, @NotBlank String idProposta) {
         this.documento = documento;
         this.nome = nome;
         this.idProposta = idProposta;
