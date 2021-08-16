@@ -1,6 +1,8 @@
 package br.com.zupacademy.propostas.controllers;
 
 import br.com.zupacademy.propostas.controllers.dto.request.NovaPropostaRequest;
+import br.com.zupacademy.propostas.controllers.exception.ValidationErrorsOutputDto;
+import br.com.zupacademy.propostas.controllers.exception.exceptions.UnprocessableEntityException;
 import br.com.zupacademy.propostas.model.entities.Proposta;
 import br.com.zupacademy.propostas.model.repositories.PropostaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,16 @@ public class PropostaController {
     private PropostaRepository repository;
 
     @PostMapping
-    public ResponseEntity<Void> cria(@RequestBody @Valid NovaPropostaRequest request) {
-        Proposta proposta = request.toModel();
+    public ResponseEntity<?> cria(@RequestBody @Valid NovaPropostaRequest request) {
+        Proposta proposta = null;
+
+        try {
+            proposta = request.toModel(repository);
+        } catch (UnprocessableEntityException e) {
+            ValidationErrorsOutputDto erro = new ValidationErrorsOutputDto(e.getMessage());
+            return ResponseEntity.unprocessableEntity().body(erro);
+        }
+
         repository.save(proposta);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(proposta.getId()).toUri();
         return ResponseEntity.created(uri).build();

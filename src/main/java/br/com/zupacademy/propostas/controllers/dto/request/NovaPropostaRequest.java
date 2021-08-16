@@ -1,7 +1,9 @@
 package br.com.zupacademy.propostas.controllers.dto.request;
 
+import br.com.zupacademy.propostas.controllers.exception.exceptions.UnprocessableEntityException;
 import br.com.zupacademy.propostas.controllers.validation.BrazilianDocument;
 import br.com.zupacademy.propostas.model.entities.Proposta;
+import br.com.zupacademy.propostas.model.repositories.PropostaRepository;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -36,7 +38,17 @@ public class NovaPropostaRequest {
         this.salario = salario;
     }
 
-    public Proposta toModel() {
+    /**
+     *
+     * @param repository repositório de propostas
+     * @return instância de Proposta, se os dados forem válidos
+     * @throws UnprocessableEntityException se os dados forem inválidos
+     */
+    public Proposta toModel(PropostaRepository repository) throws UnprocessableEntityException {
+
+        if(repository.existsByDocumento(documento))
+            throw new UnprocessableEntityException("Não é permitido mais de uma proposta por documento");
+
         return new Proposta(documento, email, nome, endereco, salario);
     }
 }

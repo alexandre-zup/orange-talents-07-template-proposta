@@ -7,6 +7,13 @@ public class ValidationErrorsOutputDto {
     private List<String> globalErrorMessages = new ArrayList<>();
     private List<FieldErrorOutputDto> fieldErrors = new ArrayList<>();
 
+    public ValidationErrorsOutputDto() {
+    }
+
+    public ValidationErrorsOutputDto(String message) {
+        this.globalErrorMessages.add(message);
+    }
+
     public void addError(String message) {
         globalErrorMessages.add(message);
     }
