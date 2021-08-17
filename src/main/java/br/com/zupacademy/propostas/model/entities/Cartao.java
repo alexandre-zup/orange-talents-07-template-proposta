@@ -35,4 +35,20 @@ public class Cartao {
         this.vencimento = vencimento;
         this.proposta = proposta;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public LocalDateTime getEmitidoEm() {
+        return emitidoEm;
+    }
+
+    public Integer getLimite() {
+        return limite;
+    }
+
+    public Vencimento getVencimento() {
+        return vencimento;
+    }
 }

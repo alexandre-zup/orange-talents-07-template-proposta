@@ -79,6 +79,26 @@ public class Proposta {
         return documento;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public BigDecimal getSalario() {
+        return salario;
+    }
+
+    public EstadoProposta getEstado() {
+        return estado;
+    }
+
+    public Cartao getCartao() {
+        return cartao;
+    }
+
     @Override
     public String toString() {
         return new StringJoiner(", ", Proposta.class.getSimpleName() + "[", "]")
