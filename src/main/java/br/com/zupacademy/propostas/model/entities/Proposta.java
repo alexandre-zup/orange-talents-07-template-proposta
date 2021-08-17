@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.StringJoiner;
 
 @Entity
 public class Proposta {
@@ -43,6 +44,9 @@ public class Proposta {
     @Enumerated(EnumType.STRING)
     private EstadoProposta estado;
 
+    @OneToOne(mappedBy = "proposta")
+    private Cartao cartao;
+
     @Deprecated
     public Proposta() {
     }
@@ -73,5 +77,16 @@ public class Proposta {
 
     public String getDocumento() {
         return documento;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Proposta.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("documento='" + documento + "'")
+                .add("nome='" + nome + "'")
+                .add("estado=" + estado)
+                .add("cartao=" + cartao)
+                .toString();
     }
 }

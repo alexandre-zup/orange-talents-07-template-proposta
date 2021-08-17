@@ -33,14 +33,30 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: keycloak
       POSTGRES_HOST: postgres
+
+  postgresproposta:
+    image: 'postgres:9.6-alpine'
+    volumes:
+      - postgresproposta-volume:/var/lib/postgresql/data
+    ports:
+      - 42421:5432
+    environment:
+      POSTGRES_USER: alex
+      POSTGRES_PASSWORD: alex
+      POSTGRES_DB: propostas
+      POSTGRES_HOST: postgresproposta
       
   pgAdmin:
     image: dpage/pgadmin4:5.5
+    volumes:
+      - pgadmin-volume:/var/lib/pgadmin
     ports: 
       - 4242:80
     environment: 
       PGADMIN_DEFAULT_EMAIL: alex@email.com
       PGADMIN_DEFAULT_PASSWORD: alex
+    logging:
+      driver: none
 
   keycloak:
     image: jboss/keycloak:11.0.0
@@ -146,3 +162,5 @@ volumes:
   grafana-volume:
   prometheus-volume:
   postgres-volume:
+  pgadmin-volume:
+  postgresproposta-volume:
