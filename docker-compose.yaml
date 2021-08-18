@@ -45,7 +45,21 @@ services:
       POSTGRES_PASSWORD: alex
       POSTGRES_DB: propostas
       POSTGRES_HOST: postgresproposta
-      
+
+  apipropostas:
+    image: 'vieiraalexandre/propostas'
+    ports:
+      - 8080:8080
+    environment:
+      PROFILE: prod
+      AVALIACAO_FINANCEIRA_API_URL: http://analise:9999/api
+      CONSULTA_CARTAO_API_URL: http://contas:8888/api
+      DB_HOST: postgresproposta
+      DB_PORT: 5432
+      DB_NAME: propostas
+      DB_USER: alex
+      DB_PASS: alex
+
   pgAdmin:
     image: dpage/pgadmin4:5.5
     volumes:
@@ -164,3 +178,9 @@ volumes:
   postgres-volume:
   pgadmin-volume:
   postgresproposta-volume:
+
+
+networks:
+  default:
+    external:
+      name: redezinha
