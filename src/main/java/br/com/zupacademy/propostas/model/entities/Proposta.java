@@ -44,7 +44,7 @@ public class Proposta {
     @Enumerated(EnumType.STRING)
     private EstadoProposta estado;
 
-    @OneToOne(mappedBy = "proposta")
+    @OneToOne(mappedBy = "proposta", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Cartao cartao;
 
     @Deprecated
@@ -57,14 +57,20 @@ public class Proposta {
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+        this.estado = EstadoProposta.EM_ANALISE;
     }
 
     /**
      * Atualiza o estado de acordo com o {@code resultado} fornecido
      * @param resultado resultado da avaliação financeira
      */
-    public void atualizaEstado(ResultadoSolicitacao resultado) {
+    public void atualizaDeAcordoComResultado(ResultadoSolicitacao resultado) {
         this.estado = resultado.getElegibilidade();
+    }
+
+    public void adicionaCartao(Cartao cartao) {
+        this.cartao = cartao;
+        this.estado = EstadoProposta.CARTAO_GERADO;
     }
 
     public Long getId() {

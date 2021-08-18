@@ -1,5 +1,8 @@
 package br.com.zupacademy.propostas.model.enums;
 
 public enum EstadoProposta {
-    ELEGIVEL, NAO_ELEGIVEL
+    EM_ANALISE,
+    ELEGIVEL,
+    NAO_ELEGIVEL,
+    CARTAO_GERADO
 }
