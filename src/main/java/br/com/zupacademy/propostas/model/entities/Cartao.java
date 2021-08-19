@@ -3,6 +3,8 @@ package br.com.zupacademy.propostas.model.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Cartao {
@@ -12,13 +14,16 @@ public class Cartao {
     private String titular;
     private Integer limite;
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToOne(cascade = {CascadeType.ALL})
     private Vencimento vencimento;
 
     @OneToOne
     @NotNull
     @JoinColumn(name = "idProposta")
     private Proposta proposta;
+
+    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.ALL})
+    private List<Biometria> biometrias = new ArrayList<>();
 
     /**
      * @deprecated uso exclusivo dos frameworks
