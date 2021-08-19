@@ -22,7 +22,7 @@ public class AvaliacaoTask {
     private AvaliacaoService service;
 
 
-    @Scheduled(fixedDelay = 5 * TimeValues.MINUTO)
+    @Scheduled(fixedDelay = TimeValues.MINUTO)
     public void avaliaPropostasNaoAvaliadasNaCriacao() {
         log.info("Iniciada tarefa de avaliação de propostas");
         List<Proposta> propostas = repository.findAllByEstado(EstadoProposta.EM_ANALISE);

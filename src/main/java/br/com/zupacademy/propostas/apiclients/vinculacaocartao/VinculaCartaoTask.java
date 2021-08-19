@@ -23,7 +23,11 @@ public class VinculaCartaoTask {
     @Autowired
     private CartaoClient cartaoClient;
 
-    @Scheduled(fixedDelay = 10 * TimeValues.MINUTO)
+    /**
+     * Método que consulta um cartão em uma API externa e, se houver, o vincula à proposta
+     * Executa periodicamente conforme o fixedDelay ou fixedRate
+     */
+    @Scheduled(fixedDelay = TimeValues.MINUTO)
     public void vinculaCartoesGeradosAsPropostas() {
         log.info("Iniciada tarefa de vinculação de cartões");
 

@@ -12,6 +12,11 @@ public class AvaliacaoService {
     @Autowired
     private AvaliacaoClient client;
 
+    /**
+     * Método que avalia os dados financeiros do solicitante de uma proposta
+     * @param proposta Proposta a ser avaliada
+     * @return {@code Optional<ResultadoSolicitacao> } resultado da solicição, que pode estar presente ou vazio
+     */
     public Optional<ResultadoSolicitacao> avalia(Proposta proposta) {
         AvaliacaoRequest request = new AvaliacaoRequest(proposta.getDocumento(), proposta.getNome(),
                 proposta.getId().toString());
