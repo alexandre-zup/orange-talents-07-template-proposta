@@ -25,7 +25,7 @@ public class NovaBiometriaController {
     @Autowired
     private BiometriaRepository biometriaRepository;
 
-    @PostMapping("/cartoes/{cartaoId}/biometrias")
+    @PostMapping("/api/cartoes/{cartaoId}/biometrias")
     @Transactional
     public ResponseEntity<Void> cadastra(@PathVariable String cartaoId,
                                          @RequestBody @Valid NovaBiometriaRequest request) {
