@@ -1,4 +1,4 @@
-package br.com.zupacademy.propostas.apiclients.vinculacaocartao;
+package br.com.zupacademy.propostas.apiclients.cartoes;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;

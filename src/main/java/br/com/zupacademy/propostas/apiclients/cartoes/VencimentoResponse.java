@@ -1,4 +1,4 @@
-package br.com.zupacademy.propostas.apiclients.vinculacaocartao;
+package br.com.zupacademy.propostas.apiclients.cartoes;
 
 import br.com.zupacademy.propostas.model.entities.Vencimento;
 

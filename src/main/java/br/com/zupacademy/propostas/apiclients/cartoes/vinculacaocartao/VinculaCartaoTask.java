@@ -1,5 +1,7 @@
-package br.com.zupacademy.propostas.apiclients.vinculacaocartao;
+package br.com.zupacademy.propostas.apiclients.cartoes.vinculacaocartao;
 
+import br.com.zupacademy.propostas.apiclients.cartoes.CartaoClient;
+import br.com.zupacademy.propostas.apiclients.cartoes.CartaoResponse;
 import br.com.zupacademy.propostas.config.TimeValues;
 import br.com.zupacademy.propostas.model.entities.Cartao;
 import br.com.zupacademy.propostas.model.entities.Proposta;
