@@ -1,6 +1,9 @@
 package br.com.zupacademy.propostas.model.entities;
 
+import org.springframework.util.Assert;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,8 +25,11 @@ public class Cartao {
     @JoinColumn(name = "idProposta")
     private Proposta proposta;
 
-    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Biometria> biometrias = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Bloqueio> bloqueios = new ArrayList<>();
 
     /**
      * @deprecated uso exclusivo dos frameworks
@@ -41,6 +47,18 @@ public class Cartao {
         this.proposta = proposta;
     }
 
+    public void bloqueia(@NotBlank String enderecoIp, @NotBlank String userAgent) {
+        Assert.hasText(enderecoIp, "Endereço IP não pode ser em branco");
+        Assert.hasText(userAgent, "User-Agent não pode ser em branco");
+
+        Bloqueio bloqueio = new Bloqueio(enderecoIp, userAgent, this);
+        this.bloqueios.add(bloqueio);
+    }
+
+    public boolean estaBloqueado() {
+        return this.bloqueios.stream().anyMatch(Bloqueio::estaAtivo);
+    }
+
     public String getId() {
         return id;
     }
@@ -55,5 +73,9 @@ public class Cartao {
 
     public Vencimento getVencimento() {
         return vencimento;
+    }
+
+    public List<Bloqueio> getBloqueios() {
+        return bloqueios;
     }
 }
