@@ -1,5 +1,6 @@
 package br.com.zupacademy.propostas.model.entities;
 
+import br.com.zupacademy.propostas.model.enums.EstadoCartao;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -9,6 +10,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static br.com.zupacademy.propostas.model.enums.EstadoCartao.*;
+
 @Entity
 public class Cartao {
     @Id
@@ -16,6 +19,10 @@ public class Cartao {
     private LocalDateTime emitidoEm;
     private String titular;
     private Integer limite;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private EstadoCartao estado;
 
     @OneToOne(cascade = {CascadeType.ALL})
     private Vencimento vencimento;
@@ -45,6 +52,7 @@ public class Cartao {
         this.limite = limite;
         this.vencimento = vencimento;
         this.proposta = proposta;
+        this.estado = ATIVO;
     }
 
     public void bloqueia(@NotBlank String enderecoIp, @NotBlank String userAgent) {
@@ -53,10 +61,15 @@ public class Cartao {
 
         Bloqueio bloqueio = new Bloqueio(enderecoIp, userAgent, this);
         this.bloqueios.add(bloqueio);
+        this.estado = BLOQUEIO_PENDENTE;
+    }
+
+    public void bloqueioConfirmadoNoLegado() {
+        this.estado = BLOQUEADO;
     }
 
     public boolean estaBloqueado() {
-        return this.bloqueios.stream().anyMatch(Bloqueio::estaAtivo);
+        return estado.equals(BLOQUEADO) || estado.equals(BLOQUEIO_PENDENTE);
     }
 
     public String getId() {
