@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
@@ -20,7 +20,9 @@ public class BloqueioController {
 
     @Transactional
     @PostMapping("/api/cartoes/{id}/bloqueios")
-    public ResponseEntity<?> cria(@PathVariable String id, HttpServletRequest request) {
+    public ResponseEntity<?> cria(@PathVariable String id,
+                                  @RequestHeader("User-Agent") String userAgent,
+                                  @RequestHeader("X-Forward-For") String xForwardFor) {
         Optional<Cartao> optionalCartao = cartaoRepository.findById(id);
 
         if (optionalCartao.isEmpty())
@@ -33,12 +35,7 @@ public class BloqueioController {
             return ResponseEntity.unprocessableEntity().body(erro);
         }
 
-        String userAgent = request.getHeader("User-Agent");
-        String enderecoIp = request.getRemoteAddr();
-
-        if(userAgent == null || userAgent.isBlank() || enderecoIp.isBlank())
-            return ResponseEntity.badRequest().build();
-
+        String enderecoIp = xForwardFor.split(",")[0];
         cartao.bloqueia(enderecoIp, userAgent);
         return ResponseEntity.ok().build();
     }
