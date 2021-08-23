@@ -15,8 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-
 import static br.com.zupacademy.propostas.model.enums.EstadoCartao.BLOQUEIO_PENDENTE;
 
 /**
@@ -36,9 +34,6 @@ public class BloqueiaCartaoTask {
     private void bloqueiaCartoes() {
         Pageable paginacao = PageRequest.ofSize(10);
         Page<Cartao> paginaDeCartoes = cartaoRepository.findAllByEstado(BLOQUEIO_PENDENTE, paginacao);
-
-
-        System.out.println(Arrays.toString(paginaDeCartoes.toList().toArray()));
 
         while(paginaDeCartoes.hasNext()) {
             executaBloqueios(paginaDeCartoes);

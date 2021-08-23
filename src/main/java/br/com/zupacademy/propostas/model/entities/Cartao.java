@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static br.com.zupacademy.propostas.model.enums.EstadoCartao.*;
+import static javax.persistence.CascadeType.*;
 
 @Entity
 public class Cartao {
@@ -32,10 +33,10 @@ public class Cartao {
     @JoinColumn(name = "idProposta")
     private Proposta proposta;
 
-    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "cartao", cascade = {MERGE, PERSIST, REMOVE})
     private List<Biometria> biometrias = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "cartao", cascade = {MERGE, PERSIST, REMOVE})
     private List<Bloqueio> bloqueios = new ArrayList<>();
 
     /**
@@ -66,6 +67,11 @@ public class Cartao {
 
     public void bloqueioConfirmadoNoLegado() {
         this.estado = BLOQUEADO;
+    }
+
+    public void adicionaBiometria(@NotNull Biometria biometria) {
+        Assert.notNull(biometria, "Biometria nao pode ser nula");
+        this.biometrias.add(biometria);
     }
 
     public boolean estaBloqueado() {
