@@ -8,6 +8,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,6 +28,14 @@ public class ValidationErrorHandler {
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
 
         return buildValidationErrors(globalErrors, fieldErrors);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ValidationErrorsOutputDto handleMethodArgumentNotValidException(MissingRequestHeaderException ex) {
+        ValidationErrorsOutputDto error = new ValidationErrorsOutputDto();
+        error.addFieldError(ex.getHeaderName(), "Cabeçalho é obrigatório");
+        return error;
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

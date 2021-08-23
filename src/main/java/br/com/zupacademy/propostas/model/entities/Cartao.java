@@ -39,6 +39,9 @@ public class Cartao {
     @OneToMany(mappedBy = "cartao", cascade = {MERGE, PERSIST, REMOVE})
     private List<Bloqueio> bloqueios = new ArrayList<>();
 
+    @OneToMany(mappedBy = "cartao", cascade = {MERGE, PERSIST, REMOVE})
+    private List<Aviso> avisos = new ArrayList<>();
+
     /**
      * @deprecated uso exclusivo dos frameworks
      */
@@ -72,6 +75,11 @@ public class Cartao {
     public void adicionaBiometria(@NotNull Biometria biometria) {
         Assert.notNull(biometria, "Biometria nao pode ser nula");
         this.biometrias.add(biometria);
+    }
+
+    public void adicionaAviso(@NotNull Aviso aviso) {
+        Assert.notNull(aviso, "Aviso nao pode ser nulo");
+        this.avisos.add(aviso);
     }
 
     public boolean estaBloqueado() {
