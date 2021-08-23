@@ -2,10 +2,10 @@ package br.com.zupacademy.propostas.apiclients.cartoes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BloqueioResponse {
+public class ResultadoResponse {
     private String resultado;
 
-    public BloqueioResponse(@JsonProperty("resultado") String resultado) {
+    public ResultadoResponse(@JsonProperty("resultado") String resultado) {
         this.resultado = resultado;
     }
 

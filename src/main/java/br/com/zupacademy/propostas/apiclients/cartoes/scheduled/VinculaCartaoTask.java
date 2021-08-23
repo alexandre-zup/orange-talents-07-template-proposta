@@ -1,4 +1,4 @@
-package br.com.zupacademy.propostas.apiclients.cartoes.vinculacaocartao;
+package br.com.zupacademy.propostas.apiclients.cartoes.scheduled;
 
 import br.com.zupacademy.propostas.apiclients.cartoes.CartaoClient;
 import br.com.zupacademy.propostas.apiclients.cartoes.CartaoResponse;
