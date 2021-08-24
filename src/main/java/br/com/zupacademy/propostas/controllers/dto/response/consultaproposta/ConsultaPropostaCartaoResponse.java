@@ -14,7 +14,7 @@ public class ConsultaPropostaCartaoResponse {
         if(cartao != null) {
             this.emitidoEm = cartao.getEmitidoEm();
             this.limite = cartao.getLimite();
-            this.id = cartao.getId();
+            this.id = cartao.getNumero();
             this.vencimento = new ConsultaPropostaVencimentoResponse(cartao.getVencimento());
         }
     }

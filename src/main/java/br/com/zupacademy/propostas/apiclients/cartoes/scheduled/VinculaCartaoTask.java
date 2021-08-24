@@ -6,6 +6,7 @@ import br.com.zupacademy.propostas.config.TimeValues;
 import br.com.zupacademy.propostas.model.entities.Cartao;
 import br.com.zupacademy.propostas.model.entities.Proposta;
 import br.com.zupacademy.propostas.model.enums.EstadoProposta;
+import br.com.zupacademy.propostas.model.repositories.CartaoRepository;
 import br.com.zupacademy.propostas.model.repositories.PropostaRepository;
 import feign.FeignException;
 import org.slf4j.Logger;
@@ -23,6 +24,8 @@ public class VinculaCartaoTask {
     @Autowired
     private PropostaRepository propostaRepository;
     @Autowired
+    private CartaoRepository cartaoRepository;
+    @Autowired
     private CartaoClient cartaoClient;
 
     /**
@@ -37,7 +40,7 @@ public class VinculaCartaoTask {
         propostas.forEach(proposta -> {
             try {
                 CartaoResponse response = cartaoClient.consultaCartao(proposta.getId().toString());
-                Cartao cartao = response.toModel(proposta);
+                Cartao cartao = response.toModel(proposta, cartaoRepository);
                 proposta.adicionaCartao(cartao);
                 propostaRepository.save(proposta);
                 log.info("Vinculação de cartão concluída - proposta " + proposta.getId());

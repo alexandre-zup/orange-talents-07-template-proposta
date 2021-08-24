@@ -47,7 +47,7 @@ public class BloqueiaCartaoTask {
         paginaDeCartoes.forEach(cartao -> {
             BloqueioRequest request = new BloqueioRequest();
             try {
-                cartaoClient.solicitaBloqueio(cartao.getId(), request);
+                cartaoClient.solicitaBloqueio(cartao.getNumero(), request);
                 cartao.bloqueioConfirmadoNoLegado();
                 cartaoRepository.save(cartao);
                 log.info("Cartão bloqueado no sistema legado: " + cartao.getId());

@@ -20,7 +20,7 @@ public class BloqueioController {
 
     @Transactional
     @PostMapping("/api/cartoes/{id}/bloqueios")
-    public ResponseEntity<?> cria(@PathVariable String id,
+    public ResponseEntity<?> cria(@PathVariable Long id,
                                   @RequestHeader("User-Agent") String userAgent,
                                   @RequestHeader("X-Forward-For") String xForwardFor) {
         Optional<Cartao> optionalCartao = cartaoRepository.findById(id);

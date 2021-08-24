@@ -24,7 +24,7 @@ public class BiometriaController {
 
     @PostMapping("/api/cartoes/{cartaoId}/biometrias")
     @Transactional
-    public ResponseEntity<Void> cadastra(@PathVariable String cartaoId,
+    public ResponseEntity<Void> cadastra(@PathVariable Long cartaoId,
                                          @RequestBody @Valid NovaBiometriaRequest request) {
         Optional<Cartao> optionalCartao = cartaoRepository.findById(cartaoId);
 

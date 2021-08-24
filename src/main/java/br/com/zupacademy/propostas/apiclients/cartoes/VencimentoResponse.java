@@ -1,5 +1,6 @@
 package br.com.zupacademy.propostas.apiclients.cartoes;
 
+import br.com.zupacademy.propostas.model.entities.Cartao;
 import br.com.zupacademy.propostas.model.entities.Vencimento;
 
 import java.time.LocalDateTime;
@@ -16,8 +17,8 @@ public class VencimentoResponse {
         this.dataDeCriacao = dataDeCriacao;
     }
 
-    public Vencimento toModel() {
-        return new Vencimento(id, dia, dataDeCriacao);
+    public Vencimento toModel(Cartao cartao) {
+        return new Vencimento(id, dia, dataDeCriacao, cartao);
     }
 
     public String getId() {

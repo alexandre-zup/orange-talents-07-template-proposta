@@ -3,6 +3,7 @@ package br.com.zupacademy.propostas.apiclients.cartoes;
 import br.com.zupacademy.propostas.model.entities.Cartao;
 import br.com.zupacademy.propostas.model.entities.Proposta;
 import br.com.zupacademy.propostas.model.entities.Vencimento;
+import br.com.zupacademy.propostas.model.repositories.CartaoRepository;
 
 import java.time.LocalDateTime;
 import java.util.StringJoiner;
@@ -24,9 +25,12 @@ public class CartaoResponse {
         this.idProposta = idProposta;
     }
 
-    public Cartao toModel(Proposta proposta) {
-        Vencimento vencimento = this.vencimento.toModel();
-        return new Cartao(id, emitidoEm, titular, limite, vencimento, proposta);
+    public Cartao toModel(Proposta proposta, CartaoRepository cartaoRepository) {
+        Cartao cartao = new Cartao(id, emitidoEm, titular, limite, proposta);
+        Vencimento vencimento = this.vencimento.toModel(cartao);
+        cartao.atualizaVencimento(vencimento);
+        cartaoRepository.save(cartao);
+        return cartao;
     }
 
     public String getId() {

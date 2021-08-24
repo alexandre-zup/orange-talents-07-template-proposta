@@ -2,6 +2,7 @@ package br.com.zupacademy.propostas.model.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -20,6 +21,10 @@ public class Vencimento {
     @NotNull
     private LocalDateTime dataDeCriacao;
 
+    @NotNull
+    @OneToOne
+    private Cartao cartao;
+
     /**
      * @deprecated uso exclusivo de frameworks
      */
@@ -27,10 +32,11 @@ public class Vencimento {
     public Vencimento() {
     }
 
-    public Vencimento(String id, Integer dia, LocalDateTime dataDeCriacao) {
+    public Vencimento(String id, Integer dia, LocalDateTime dataDeCriacao, Cartao cartao) {
         this.id = id;
         this.dia = dia;
         this.dataDeCriacao = dataDeCriacao;
+        this.cartao = cartao;
     }
 
     public Integer getDia() {

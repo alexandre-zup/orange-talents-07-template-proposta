@@ -26,7 +26,7 @@ public class AvisoController {
 
     @PostMapping("/api/cartoes/{id}/avisos")
     @Transactional
-    public ResponseEntity<Void> cria(@PathVariable String id,
+    public ResponseEntity<Void> cria(@PathVariable Long id,
                                   @RequestBody @Valid NovoAvisoRequest requestDto,
                                   @RequestHeader("User-Agent") String userAgent,
                                   @RequestHeader(value = "X-Forward-For") String xForwardFor) {
@@ -43,7 +43,7 @@ public class AvisoController {
 
         try {
             AvisoRequest request = new AvisoRequest(requestDto.getDestino(), requestDto.getValidoAte());
-            cartaoClient.enviaAviso(id, request);
+            cartaoClient.enviaAviso(cartao.getNumero(), request);
         } catch (FeignException.UnprocessableEntity ex) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (FeignException.BadRequest ex) {

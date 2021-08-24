@@ -12,6 +12,8 @@ import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.StringJoiner;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 public class Proposta {
     @Id
@@ -44,7 +46,7 @@ public class Proposta {
     @Enumerated(EnumType.STRING)
     private EstadoProposta estado;
 
-    @OneToOne(mappedBy = "proposta", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne(mappedBy = "proposta", cascade = {PERSIST, MERGE, REMOVE})
     private Cartao cartao;
 
     @Deprecated

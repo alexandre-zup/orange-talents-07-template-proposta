@@ -16,7 +16,13 @@ import static javax.persistence.CascadeType.*;
 @Entity
 public class Cartao {
     @Id
-    private String id;
+    @GeneratedValue
+    private Long id;
+
+    @NotNull
+    @NotBlank
+    @Column(unique = true)
+    private String numero;
     private LocalDateTime emitidoEm;
     private String titular;
     private Integer limite;
@@ -25,7 +31,7 @@ public class Cartao {
     @Enumerated(EnumType.STRING)
     private EstadoCartao estado;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(mappedBy = "cartao", cascade = {MERGE, PERSIST, REMOVE})
     private Vencimento vencimento;
 
     @OneToOne
@@ -49,12 +55,11 @@ public class Cartao {
     public Cartao() {
     }
 
-    public Cartao(String id, LocalDateTime emitidoEm, String titular, Integer limite, Vencimento vencimento, Proposta proposta) {
-        this.id = id;
+    public Cartao(String numero, LocalDateTime emitidoEm, String titular, Integer limite, Proposta proposta) {
+        this.numero = numero;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.limite = limite;
-        this.vencimento = vencimento;
         this.proposta = proposta;
         this.estado = ATIVO;
     }
@@ -82,12 +87,20 @@ public class Cartao {
         this.avisos.add(aviso);
     }
 
+    public void atualizaVencimento(Vencimento vencimento) {
+        this.vencimento = vencimento;
+    }
+
     public boolean estaBloqueado() {
         return estado.equals(BLOQUEADO) || estado.equals(BLOQUEIO_PENDENTE);
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
+    }
+
+    public String getNumero() {
+        return numero;
     }
 
     public LocalDateTime getEmitidoEm() {
