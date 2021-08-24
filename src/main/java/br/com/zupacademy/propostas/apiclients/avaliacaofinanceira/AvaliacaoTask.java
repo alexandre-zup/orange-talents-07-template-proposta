@@ -23,8 +23,8 @@ public class AvaliacaoTask {
 
 
     @Scheduled(fixedDelay = TimeValues.MINUTO)
-    public void avaliaPropostasNaoAvaliadasNaCriacao() {
-        log.info("Iniciada tarefa de avaliação de propostas");
+    protected void avaliaPropostasNaoAvaliadasNaCriacao() {
+        log.debug("Task iniciada");
         List<Proposta> propostas = repository.findAllByEstado(EstadoProposta.EM_ANALISE);
 
         propostas.forEach(proposta -> {
@@ -37,9 +37,9 @@ public class AvaliacaoTask {
             });
 
             if(optionalResultado.isEmpty())
-                log.info("Erro na avaliação - proposta " + proposta.getId());
+                log.error("Erro na avaliação - proposta " + proposta.getId());
         });
 
-        log.info("Finalizada tarefa de avaliação de propostas");
+        log.debug("Task finalizada");
     }
 }

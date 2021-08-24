@@ -31,8 +31,8 @@ public class BloqueiaCartaoTask {
     private CartaoClient cartaoClient;
 
     @Scheduled(fixedDelay = 5 * TimeValues.SEGUNDO)
-    private void bloqueiaCartoes() {
-        Pageable paginacao = PageRequest.ofSize(10);
+    protected void bloqueiaCartoes() {
+        Pageable paginacao = PageRequest.of(0,10);
         Page<Cartao> paginaDeCartoes = cartaoRepository.findAllByEstado(BLOQUEIO_PENDENTE, paginacao);
 
         while(paginaDeCartoes.hasNext()) {

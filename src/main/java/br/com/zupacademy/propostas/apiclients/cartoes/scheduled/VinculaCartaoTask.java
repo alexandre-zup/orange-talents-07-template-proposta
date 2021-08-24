@@ -33,8 +33,8 @@ public class VinculaCartaoTask {
      * Executa periodicamente conforme o fixedDelay ou fixedRate
      */
     @Scheduled(fixedDelay = TimeValues.MINUTO)
-    public void vinculaCartoesGeradosAsPropostas() {
-        log.info("Iniciada tarefa de vinculação de cartões");
+    protected void vinculaCartoesGeradosAsPropostas() {
+        log.debug("Task iniciada");
 
         List<Proposta> propostas = propostaRepository.findAllByEstado(EstadoProposta.ELEGIVEL);
         propostas.forEach(proposta -> {
@@ -50,6 +50,6 @@ public class VinculaCartaoTask {
 
         });
 
-        log.info("Finalizada tarefa de vinculação de cartões");
+        log.debug("Task finalizada");
     }
 }

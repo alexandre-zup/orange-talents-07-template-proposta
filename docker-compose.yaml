@@ -48,8 +48,9 @@ services:
 
   apipropostas:
     image: 'vieiraalexandre/propostas'
+    container_name: api
     ports:
-      - 8080:8080
+      - 8081:8080
     environment:
       PROFILE: prod
       AVALIACAO_FINANCEIRA_API_URL: http://analise:9999/api
@@ -59,18 +60,13 @@ services:
       DB_NAME: propostas
       DB_USER: alex
       DB_PASS: alex
-
-  pgAdmin:
-    image: dpage/pgadmin4:5.5
-    volumes:
-      - pgadmin-volume:/var/lib/pgadmin
-    ports: 
-      - 4242:80
-    environment: 
-      PGADMIN_DEFAULT_EMAIL: alex@email.com
-      PGADMIN_DEFAULT_PASSWORD: alex
-    logging:
-      driver: none
+      JAEGER_ENABLED: true
+      APPLICATION_NAME: propostas
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+      JAEGER_SAMPLER: 1
+      JAEGER_JDBC: true
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/auth/realms/propostas
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/auth/realms/propostas/protocol/openid-connect/certs
 
   keycloak:
     image: jboss/keycloak:11.0.0
@@ -99,6 +95,7 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: Pa55w0rd
       POSTGRES_PORT_5432_TCP_ADDR: 127.0.0.1
+      KEYCLOAK_FRONTEND_URL: http://keycloak:8080/auth
     restart: on-failure
 
   analise:
@@ -182,5 +179,4 @@ volumes:
 
 networks:
   default:
-    external:
       name: redezinha
