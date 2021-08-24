@@ -1,5 +1,6 @@
 package br.com.zupacademy.propostas.apiclients.cartoes;
 
+import br.com.zupacademy.propostas.controllers.dto.request.NovaCarteiraRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,4 +16,7 @@ public interface CartaoClient {
 
     @PostMapping(value = "/cartoes/{id}/avisos")
     ResultadoResponse enviaAviso(@PathVariable String id, @RequestBody @Valid AvisoRequest request);
+
+    @PostMapping(value = "/cartoes/{id}/carteiras")
+    ResultadoResponse associaCarteira(@PathVariable String id, @RequestBody @Valid NovaCarteiraRequest request);
 }

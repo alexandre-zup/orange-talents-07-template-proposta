@@ -7,8 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static br.com.zupacademy.propostas.model.enums.EstadoCartao.*;
 import static javax.persistence.CascadeType.*;
@@ -47,6 +46,9 @@ public class Cartao {
 
     @OneToMany(mappedBy = "cartao", cascade = {MERGE, PERSIST, REMOVE})
     private List<Aviso> avisos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cartao", cascade = {MERGE, PERSIST, REMOVE})
+    private Set<Carteira> carteiras = new HashSet<>();
 
     /**
      * @deprecated uso exclusivo dos frameworks
@@ -87,6 +89,10 @@ public class Cartao {
         this.avisos.add(aviso);
     }
 
+    public boolean adicionaCarteira(Carteira carteira) {
+        return this.carteiras.add(carteira);
+    }
+
     public void atualizaVencimento(Vencimento vencimento) {
         this.vencimento = vencimento;
     }
@@ -117,5 +123,18 @@ public class Cartao {
 
     public List<Bloqueio> getBloqueios() {
         return bloqueios;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cartao cartao = (Cartao) o;
+        return numero.equals(cartao.numero);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(numero);
     }
 }

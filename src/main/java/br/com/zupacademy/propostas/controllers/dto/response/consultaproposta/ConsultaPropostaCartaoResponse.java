@@ -7,14 +7,14 @@ import java.time.LocalDateTime;
 public class ConsultaPropostaCartaoResponse {
     private LocalDateTime emitidoEm;
     private Integer limite;
-    private String id;
+    private String numero;
     private ConsultaPropostaVencimentoResponse vencimento;
 
     public ConsultaPropostaCartaoResponse(Cartao cartao) {
         if(cartao != null) {
             this.emitidoEm = cartao.getEmitidoEm();
             this.limite = cartao.getLimite();
-            this.id = cartao.getNumero();
+            this.numero = cartao.getNumero();
             this.vencimento = new ConsultaPropostaVencimentoResponse(cartao.getVencimento());
         }
     }
@@ -27,8 +27,8 @@ public class ConsultaPropostaCartaoResponse {
         return limite;
     }
 
-    public String getId() {
-        return id;
+    public String getNumero() {
+        return numero;
     }
 
     public ConsultaPropostaVencimentoResponse getVencimento() {
