@@ -15,11 +15,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
         http.authorizeRequests(authorizeRequests -> authorizeRequests
                 .antMatchers(HttpMethod.GET, PROPOSTAS).hasAuthority("SCOPE_api-propostas-escopo")
                 .antMatchers(HttpMethod.GET, CARTOES).hasAuthority("SCOPE_api-propostas-escopo")
                 .antMatchers(HttpMethod.POST, PROPOSTAS).hasAuthority("SCOPE_api-propostas-escopo")
-                .antMatchers(HttpMethod.GET, ACTUATOR).hasAuthority("SCOPE_api-propostas-escopo")
+                .antMatchers(HttpMethod.GET, ACTUATOR).permitAll()
                 .anyRequest().authenticated()
         ).oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 
