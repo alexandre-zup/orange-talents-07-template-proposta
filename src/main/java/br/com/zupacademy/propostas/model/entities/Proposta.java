@@ -1,8 +1,8 @@
 package br.com.zupacademy.propostas.model.entities;
 
 import br.com.zupacademy.propostas.apiclients.avaliacaofinanceira.ResultadoSolicitacao;
-import br.com.zupacademy.propostas.controllers.validation.BrazilianDocument;
 import br.com.zupacademy.propostas.model.enums.EstadoProposta;
+import br.com.zupacademy.propostas.utils.Criptografia;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -20,10 +20,13 @@ public class Proposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @BrazilianDocument
     @NotBlank
     @Column(nullable = false)
     private String documento;
+
+    @NotBlank
+    @Column(nullable = false)
+    private String documentoHash;
 
     @Email
     @NotBlank
@@ -49,12 +52,25 @@ public class Proposta {
     @OneToOne(mappedBy = "proposta", cascade = {PERSIST, MERGE, REMOVE})
     private Cartao cartao;
 
+    /**
+     * @deprecated para uso de frameworks
+     */
     @Deprecated
     public Proposta() {
     }
 
-    public Proposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
-        this.documento = documento;
+    /**
+     *
+     * @param documentoTextoLimpo documento do solicitante em texto limpo
+     * @param email email do solicitante em formato válido
+     * @param nome nome do solicitante
+     * @param endereco endereço do solicitante
+     * @param salario salario do solicitante
+     */
+    public Proposta(String documentoTextoLimpo, String email, String nome, String endereco, BigDecimal salario) {
+        Criptografia criptografia = Criptografia.getInstance();
+        this.documento = criptografia.cifrar(documentoTextoLimpo);
+        this.documentoHash = criptografia.gerarHash(documentoTextoLimpo);
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
@@ -83,8 +99,13 @@ public class Proposta {
         return nome;
     }
 
+    /**
+     * O documento é armazenado cifrado, mas o getter já retorna em texto limpo
+     * @return documento do cliente decifrado
+     */
     public String getDocumento() {
-        return documento;
+        Criptografia criptografia = Criptografia.getInstance();
+        return criptografia.decifrar(documento);
     }
 
     public String getEmail() {

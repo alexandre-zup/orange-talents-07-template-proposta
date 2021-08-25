@@ -67,6 +67,7 @@ services:
       JAEGER_JDBC: true
       KEYCLOAK_ISSUER_URI: http://keycloak:8080/auth/realms/propostas
       KEYCLOAK_JWKS_URI: http://keycloak:8080/auth/realms/propostas/protocol/openid-connect/certs
+      CRIPTOGRAFIA_SECRET: 12$PmwOOUAFhsxRaKQ5MDz.vOcARme0c0P06EyJ1kfw1PbkXW73e7x3hXFVOernD$2a$12$5MPb$2a$12$ke/enqptI0
 
   keycloak:
     image: jboss/keycloak:11.0.0

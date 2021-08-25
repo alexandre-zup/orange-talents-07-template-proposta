@@ -4,6 +4,7 @@ import br.com.zupacademy.propostas.controllers.exception.exceptions.Unprocessabl
 import br.com.zupacademy.propostas.controllers.validation.BrazilianDocument;
 import br.com.zupacademy.propostas.model.entities.Proposta;
 import br.com.zupacademy.propostas.model.repositories.PropostaRepository;
+import br.com.zupacademy.propostas.utils.Criptografia;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -45,8 +46,9 @@ public class NovaPropostaRequest {
      * @throws UnprocessableEntityException se os dados forem inválidos
      */
     public Proposta toModel(PropostaRepository repository) throws UnprocessableEntityException {
+        String documentoHash = Criptografia.getInstance().gerarHash(documento);
 
-        if(repository.existsByDocumento(documento))
+        if(repository.existsByDocumentoHash(documentoHash))
             throw new UnprocessableEntityException("Não é permitido mais de uma proposta por documento");
 
         return new Proposta(documento, email, nome, endereco, salario);

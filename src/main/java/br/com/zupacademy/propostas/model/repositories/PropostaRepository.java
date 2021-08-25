@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PropostaRepository extends JpaRepository<Proposta, Long> {
-    boolean existsByDocumento(String documento);
+    boolean existsByDocumentoHash(String documento);
 
     List<Proposta> findAllByEstado(EstadoProposta estado);
 }
